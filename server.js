@@ -24,7 +24,7 @@ mongoose.connect(MONGODB_URI);
 
 
 
-app.get("/scrape", function(req, res) {
+app.get("/", function(req, res) {
 
     axios.get("http://www.cbsnews.com/").then(function(response) {
 
@@ -69,8 +69,8 @@ app.get("/articles", function(req, res) {
 
 app.get("/notes", function(req, res) {
     db.Note.find({})
-        .then(function(dbArticle) {
-            res.json(dbArticle);
+        .then(function(dbNote) {
+            res.send(dbNote);
         })
         .catch(function(err) {
             res.json(err);
