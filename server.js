@@ -1,5 +1,4 @@
 var express = require("express");
-// var logger = require("morgan");
 var mongoose = require("mongoose");
 
 var axios = require("axios");
@@ -70,7 +69,7 @@ app.get("/articles", function(req, res) {
 app.get("/notes", function(req, res) {
     db.Note.find({})
         .then(function(dbNote) {
-            res.send(dbNote);
+            res.json(dbNote);
         })
         .catch(function(err) {
             res.json(err);

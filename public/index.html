@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>News Scraper</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="style.css">
@@ -16,16 +17,15 @@
     <div class="jumbotron jumbotron-dark bg-dark">
         <h1 id="jumbotronText" class="display-4">Welcome to News Scraper!</h1>
         <p id="jumbotronText" class="lead">Here, you'll find articles from CBS News. Want to leave a note for an article? Just click on the
-            article and
+            "Add a Note" button and
             an option to do so will appear!
         </p>
-        <p><small id="jumbotronText">(Want to look at notes that have already been saved? Then click <a href=/notes>here</a>)</small></p>
     </div>
 
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
-                <!-- placeholder div -->
+            <!-- <div class="col-md-2">
+                
             </div>
             <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <!-- placeholder div -->
+                
             </div>
             <div class="col-md-3">
                 <div class="card" style="width: 18rem;">
@@ -49,12 +49,15 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <!-- placeholder div -->
+                
+            </div> -->
+            <div id="articles">
+
             </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
     <script src="app.js"></script>
 </body>
 
