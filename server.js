@@ -19,7 +19,7 @@ require("./routes/articlesRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://t_millican:TransRights_420>@ds221148.mlab.com:21148/heroku_nftp60fz";
 
 mongoose.connect(MONGODB_URI);
 
