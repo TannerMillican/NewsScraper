@@ -76,4 +76,24 @@ module.exports = function(app) {
             });
     });
 
+    app.delete("/articles/notes/delete/:id", function(req, res) {
+
+        console.log(req.params)
+
+        db.Note.remove({_id: req.params.id})
+            .then(function(res) {
+                console.log(res)
+            })
+    })
+
+    app.put("/articles/notes/update/:id", function(req, res) {
+        console.log(req.params)
+        console.log(req.body)
+
+        db.Note.update({_id: req.params.id},{$set: {title: req.body.title, body: req.body.body}})
+            .then(function(res) {
+                console.log(res)
+            })
+    })
+
 }
