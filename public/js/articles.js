@@ -1,15 +1,10 @@
 $.getJSON("/articles", function (data) {
     console.log(data)
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 1; i < data.length; i++) {
         
-        $("#articles").append("<div class='card'><div class='card-body'><h5 data-id='" + data[i]._id + "class='card-title'>" + data[i].title + "</h5><p class='card-text'> <small>link: </small> <a href='" + data[i].link + "'> go to article</a><p class='card-text'>" + data[i].summary + "</p><button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='addNote'>Add a Note</button> | <button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='savedNotes' >Note for this Article</button><div id='myModal' class='modal'><div class='modal-content' id='myModalContent'><span class='close'>&times;Close</span></div></div><div id='newNote'></div></div></div>")
+        $("#articles").append("<div class='card'><div class='card-body'><h5 data-id='" + data[i]._id + "class='card-title'>" + data[i].title + "</h5><p class='card-text'> <small>link: </small> <a href='" + data[i].link + "'> go to article</a><p class='card-text'>" + data[i].summary + "</p><button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='addNote'>Add a Note</button> | <button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='savedNotes' >Note for this Article</button><div id='myModal' class='modal'><div class='modal-content' id='myModalContent'><span id='modalClose' class='close'>&times;Close</span></div></div><div id='newNote'></div></div></div>")
     }
 });
-
- 
-
-
-
 
 $(document).on("click", "#addNote", function() {
     $("#newNote").empty();
@@ -23,20 +18,29 @@ $(document).on("click", "#addNote", function() {
 
     .then(function(data) {
 
-        console.log(data)
+        // console.log(data)
 
-        $("#newNote").append("<h3>Add a note title and note below</h3>");
-        $("#newNote").append("<h5>" + data.title + "</h5>");
-        $("#newNote").append("<input id='titleinput' name='title' >");
-        $("#newNote").append("<br>");
-        $("#newNote").append("<textarea id='bodyinput' name='body'></textarea>");
-        $("#newNote").append("<br>");
-        $("#newNote").append("<button type='button' class='btn btn-primary' data-id='" + data._id + "' id='saveNote'>Save Note</button>");
+        var modalContent = document.getElementById("myModalContent");
 
-        if (data.note) {
-        $("#titleinput").val(data.note.title);
-        $("#bodyinput").val(data.note.body);
-        }
+        $(modalContent).append("<h3>Add a note title and note below</h3>");
+        $(modalContent).append("<h5>" + data.title + "</h5>");
+        $(modalContent).append("<input id='titleinput' name='title' >");
+        $(modalContent).append("<br>");
+        $(modalContent).append("<textarea id='bodyinput' name='body'></textarea>");
+        $(modalContent).append("<br>");
+        $(modalContent).append("<button type='button' class='btn btn-primary' data-id='" + data._id + "' id='saveNote'>Save Note</button>");
+
+        
+    }).then(function() {
+        var modal = document.getElementById("myModal");
+        var span = $(".close")[0];
+
+        modal.style.display = "block";
+
+        $(span).on("click", function() {
+            modal.style.display = "none";
+        });
+
     });
 });
 
@@ -52,9 +56,6 @@ $(document).on("click", "#saveNote", function () {
             body: $("#bodyinput").val()
         }
     })
-        .then(
-            $("#newNote").remove()
-        );
 });
 
 $(document).on("click", "#savedNotes", function () {
@@ -75,14 +76,8 @@ $(document).on("click", "#savedNotes", function () {
     })
     .then(function() {
         var modal = document.getElementById("myModal");
-        var button = document.getElementById("deleteNote")
-        var span = $(".close")[0];
 
         modal.style.display = "block";
-
-        $(span).on("click", function() {
-            modal.style.display = "none";
-        });
 
     })
 });
@@ -93,11 +88,11 @@ $(document).on("click", "#deleteNote", function() {
 
     $.ajax({
         method: "DELETE",
-        url: "/articles/notes/delete" + thisId
+        url: "/articles/notes/delete/" + thisId
     });
 
     location.reload();
-})
+});
 
 $(document).on("click", "#updateNote", function() {
 
@@ -115,4 +110,10 @@ $(document).on("click", "#updateNote", function() {
         }
     })
 
+});
+
+$(document).on("click", "#modalClose", function() {
+    var modal = document.getElementById("myModal");
+
+    modal.style.display = "none";
 })
