@@ -1,104 +1,27 @@
 var express = require("express");
 var mongoose = require("mongoose");
-
-var axios = require("axios");
-var cheerio = require("cheerio");
-
-var db = require("./models");
+var path = require("path");
 
 var PORT = 3000;
 
 var app = express();
-
-// app.use(logger("dev"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static("public"));
 
+app.set("views", path.join(__dirname, "public"));
+app.set("view engine", "html");
+app.engine("html", require("ejs").renderFile);
+
+require("./routes/articlesRoutes")(app);
+require("./routes/htmlRoutes")(app);
+
+
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 mongoose.connect(MONGODB_URI);
-
-
-
-app.get("/", function(req, res) {
-
-    axios.get("http://www.cbsnews.com/").then(function(response) {
-
-        var $ = cheerio.load(response.data);
-
-        $("article a").each(function(i, element) {
-
-            var result = {};
-
-            result.title = $(this)
-                .children("div")
-                .children("h4")
-                .text();
-            result.link = $(this)
-                .attr("href");
-            result.summary = $(this)
-                .children("div")
-                .children("p")
-                .text();
-
-        db.Article.create(result)
-            .then(function(dbArticle) {
-                console.log(dbArticle);
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
-        });
-
-    });
-});
-
-app.get("/articles", function(req, res) {
-    db.Article.find({})
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-
-app.get("/notes", function(req, res) {
-    db.Note.find({})
-        .then(function(dbNote) {
-            res.json(dbNote);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-
-app.get("/articles/:id", function(req, res) {
-    db.Article.findOne({ _id: req.params.id })
-        .populate("note")
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
-
-app.post("/articles/:id", function(req, res) {
-    db.Note.create(req.body)
-        .then(function(dbNote) {
-            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
-        })
-        .then(function(dbArticle) {
-            res.json(dbArticle);
-        })
-        .catch(function(err) {
-            res.json(err);
-        });
-});
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
