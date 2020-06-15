@@ -32,6 +32,11 @@ img {
     width: 99%;
 }
 
+.modal-body {
+    height: auto;
+    overflow-y: auto;
+}
+
 .close {
     color: #aaa;
     float: right;

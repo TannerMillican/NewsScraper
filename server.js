@@ -19,9 +19,9 @@ require("./routes/articlesRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://t_millican:TransRights_420>@ds221148.mlab.com:21148/heroku_nftp60fz";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");

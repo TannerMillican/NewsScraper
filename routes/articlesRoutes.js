@@ -4,7 +4,7 @@ var cheerio = require("cheerio");
 
 module.exports = function(app) {
 
-    app.get("/", function(req, res) {
+    app.get("/articles", function(req, res) {
 
         axios.get("http://www.cbsnews.com/").then(function(response) {
 
@@ -25,18 +25,17 @@ module.exports = function(app) {
                     .children("p")
                     .text();
 
-            db.Article.create(result)
-                .then(function(dbArticle) {
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
+                // console.log(result)
+
+                db.Article.create(result)
+                    .then(function(dbArticle) {
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
             });
 
-        });
-    });
-
-    app.get("/articles", function(req, res) {
+        })
         
         db.Article.find({})
             .then(function(dbArticle) {
@@ -45,8 +44,18 @@ module.exports = function(app) {
             .catch(function(err) {
                 res.json(err);
             });
-
     });
+
+    // app.get("/articles", function(req, res) {
+        
+    //     db.Article.find({})
+    //         .then(function(dbArticle) {
+    //             res.json(dbArticle);
+    //         })
+    //         .catch(function(err) {
+    //             res.json(err);
+    //         });
+    // });
 
     app.get("/articles/:id", function(req, res) {
 
