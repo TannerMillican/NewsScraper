@@ -6,6 +6,9 @@ $(document).on("click", "#scrapeButton", function() {
         url: "/articles"
     })
     .then(function(data) {
+
+        $("#articles").append("<h2>Articles</h2>")
+
         for (var i = 1; i < data.length; i++) {
         
             $("#articles").append("<div class='card'><div class='card-body'><h5 data-id='" + data[i]._id + "class='card-title'>" + data[i].title + "</h5><p class='card-text'> <small>link: </small> <a href='" + data[i].link + "'> go to article</a><p class='card-text'>" + data[i].summary + "</p><button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='addNote'>Add a Note</button> | <button type='button' data-id='" + data[i]._id + "' class='btn btn-primary' id='savedNotes' >Note for this Article</button><div id='myModal' class='modal'><div class='modal-content' id='myModalContent'><span id='modalClose' class='close'>&times;Close</span></div></div><div id='newNote'></div></div></div>")
