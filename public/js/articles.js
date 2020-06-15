@@ -121,6 +121,6 @@ $(document).on("click", "#updateNote", function() {
 
 $(document).on("click", "#modalClose", function() {
     var modal = document.getElementById("myModal");
-    
+
     modal.style.display = "none";
 })
